@@ -1,0 +1,140 @@
+*{
+    margin: 0;
+    padding: 0;
+    color: #fff;
+}
+body,html{
+    width: 100%;
+    height: 100%;
+    background-color: #db4d6d;
+    /* 用css3的方法设置居中 */
+    display: flex;
+    /* 水平居中 不知道子集使用 */
+    justify-content: center;
+    /* 垂直居中 不知道子集使用*/
+    align-items: center;
+}
+.monster{
+    width: 110px;
+    height: 100px;
+    border-radius: 20px;
+    background-color: #e55a54;
+    margin: 10px;
+    display: flex;
+    /* 水平居中 不知道子集使用 */
+    justify-content: center;
+    align-items: center;
+    /* 设置垂直排列 */
+    flex-direction: column;
+    box-shadow: 0 10px 20px rgba(0, 0, 0,0.2);
+    position: relative;
+    /* 添加动画  animation: 动画名 执行时间 执行次数 交替*/
+    animation: jumping 0.8s infinite alternate;
+}
+.monster .eye{
+    width: 40%;
+    height: 40%;
+    border-radius: 50%;
+    background-color: #fff;
+    margin: 10px;
+    display: flex;
+    /* 水平居中 不知道子集使用 */
+    justify-content: center;
+    align-items: center;
+}
+.monster .eye .eyeBall{
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+    background-color: #0c4475;
+    animation: eyemove 1.6s infinite alternate;
+}
+.monster .mouth{
+    width: 32%;
+    height: 12px;
+    border-radius: 12px;
+    background-color: #fff;
+}
+.monster::before,.monster::after{
+    position: absolute;
+    content: "";
+    display: block;
+    width: 20%;
+    height: 10px;
+    border-radius: 10px;
+    background-color: #fff;
+    top: -10px;
+    left: 50%;
+}
+.monster::before{
+    /* 平移旋转 */
+    transform: translateX(-70%) rotate(45deg);
+}
+.monster::after{
+    transform: translateX(-30%) rotate(-45deg);
+}
+.monster.blue{
+    background-color: #0c4475;
+    /* 延迟动画 */
+    animation-delay: 0.8s;
+}
+.monster.blue .eyeBall,.monster.blue .mouth{
+    background-color: #e55a54;
+}
+@keyframes jumping{
+    50%{
+        top: 0;
+        box-shadow: 0 10px 20px rgba(0, 0, 0,0.2);
+    }
+    100%{
+        top: -50px;
+        box-shadow: 0 120px 20px rgba(0, 0, 0,0.1);
+    }
+}
+@keyframes eyemove{
+    0%,20%{
+        transform: translateX(-50%);
+    }
+    90%,100%{
+        transform: translateX(50%);
+    }
+}
+.pageLoading{
+    /* 基于当前窗口的定位 */
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0c4475;
+    flex-direction: column; 
+    /* 透明度执行时间 */
+     transition: opacity 0.5s; 
+    
+}
+.pageLoading .loading{
+    width: 200px;
+    height: 8px;
+    background-color: #fff;
+    border-radius: 5px;
+    margin-top: 50px;
+    overflow: hidden;
+}
+.pageLoading .loading .bar{
+    width: 100%;
+    height: 100%;
+    background-color: #e55a54;
+}
+.pageLoading.complete{
+    transition-delay: 0.5s;
+    opacity: 0;
+}
+.pageLoading.complete .monster{
+    /* 当前动画执行时间 */
+    transition: 0.5s;
+    /* 旋转一圈 scale缩放 */
+    transform: scale(0.1) rotateZ(360deg);
+}

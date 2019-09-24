@@ -1,0 +1,31 @@
+*{
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+	list-style: none;
+	font-size: 12px;
+}
+
+/*通用样式 水平居中显示*/
+.wrap{
+	width: 1205px;
+	margin: 0 auto;
+	position: relative;
+}
+body{
+	background-color: #f4f4f4;
+	width: 100%;
+}
+.top{	
+	height: 115px;
+	/*background-color: #f5f5f5;*/
+}
+.search{
+	height: 131px;
+	background-color: #ffffff;
+}
+.content{
+	height: 677px;
+	padding-left: 5px;
+	position: relative;
+}

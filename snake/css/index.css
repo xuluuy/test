@@ -1,0 +1,67 @@
+.content{
+	width: 600px;
+	height: 600px;
+	margin: 100px auto;
+	position: relative;
+}
+.btn{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background-color: rgba(0,0,0,0.3);
+	z-index: 2;
+}
+
+.btn button{
+	background: none;
+	border: none;
+	background-size: 100% 100%;
+	cursor: pointer;
+	outline: none;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+}
+.startBtn button{
+	width: 168px;
+	height: 40px;
+	background-image: url(../img/startBtn.jpg);
+	margin-top: -20px;
+	margin-left: -84px;
+}
+.pauseBtn{
+	display: none;
+}
+.pauseBtn button{
+	width: 45px;
+	height: 45px;
+	background-image: url(../img/btn-back.png);
+	margin-left: -22.5px;
+	margin-top: -22.5px;
+}
+#snakeWrap{
+	width:600px ;
+	height:600px;
+	background:url(../img/map-tile.jpg);
+	position: relative;
+	
+}
+/*开始时定义蛇的宽高 以后删掉
+#snakeWrap div{
+	width: 20px;
+	height: 20px;
+}*/
+.snakeHead{
+	background-image: url(../img/head1.png);
+	/*设置背景图片适应当前父级容器*/
+	background-size: cover;
+}
+.snakeBody{
+	background-image: url(../img/body1.png);
+	background-size: cover;	
+}
+.food{
+	background: url(../img/bean2.png)no-repeat;
+}
