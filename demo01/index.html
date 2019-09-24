@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="inputBox">
+            <input type="text" placeholder="请输入验证码(区分大小写)">
+            <span ></span>
+        </div>
+        <p class="error">sf</p>
+        <div class="canvasBox">
+            <div class="imgBox">
+                <canvas id="myCanvas" width=300 height=80></canvas>
+            </div>
+            <input type="button" class="refresh">
+        </div>
+        <button class="submit">submit</button>
+    </div>
+    <script src="./jquery-1.7.1.min.js"></script>
+    <script src="./demo.js"></script>
+</body>
+</html>
