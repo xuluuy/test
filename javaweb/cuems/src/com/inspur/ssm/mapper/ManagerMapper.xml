@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.inspur.ssm.mapper.ManagerMapper">
+	<resultMap id="BaseResultMap" type="com.inspur.ssm.pojo.Managerinfo">
+		<result column="managerid" property="managerid" jdbcType="VARCHAR" />
+		<result column="managername" property="managername" jdbcType="VARCHAR" />
+		<result column="manpassword" property="manpassword" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="VARCHAR" />
+		<result column="manager_idcard" property="manager_idcard"
+			jdbcType="VARCHAR" />
+		<result column="birthday" property="birthday" jdbcType="DATE" />
+		<result column="mandepartname" property="mandepartname"
+			jdbcType="VARCHAR" />
+		<result column="manposition" property="manposition" jdbcType="VARCHAR" />
+		<result column="mantel" property="mantel" jdbcType="VARCHAR" />
+		<result column="manaddress" property="manaddress" jdbcType="VARCHAR" />
+		<result column="usertype" property="usertype" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		managerid,managername,manpassword,sex,manager_idcard,birthday,mandepartname,manposition,mantel,manaddress,usertype
+	</sql>
+
+	<select id="findManager" resultType="com.inspur.ssm.pojo.Managerinfo"
+		parameterType="com.inspur.ssm.pojo.Managerinfo">
+		select
+		managerid,managername,manpassword,sex,manager_idcard,birthday,mandepartname,manposition,mantel,manaddress,usertype
+		from managerinfo
+		where managerid = #{managerid} and manpassword = #{manpassword}
+	</select>
+
+	<select id="getManagersList" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from managerinfo order by managerid
+	</select>
+
+	<update id="updateByPrimaryKey" parameterType="com.inspur.ssm.pojo.Managerinfo">
+		update managerinfo
+		set managername = #{managername,jdbcType=VARCHAR},
+		sex = #{sex,jdbcType=VARCHAR},
+		manager_idcard = #{manager_idcard,jdbcType=VARCHAR},
+		birthday = to_date(#{birthdays,jdbcType=DATE},'yyyy-MM-dd'),
+		mandepartname = #{mandepartname,jdbcType=VARCHAR},
+		manposition = #{manposition,jdbcType=VARCHAR},
+		mantel = #{mantel,jdbcType=VARCHAR},
+		manaddress = #{manaddress,jdbcType=VARCHAR}
+		where managerid = #{managerid,jdbcType=VARCHAR}
+	</update>
+
+	<select id="selectByManager" resultMap="BaseResultMap"
+		parameterType="com.inspur.ssm.pojo.Managerinfo">
+		select
+		<include refid="Base_Column_List" />
+		from managerinfo
+		where managerid = #{managerid,jdbcType=VARCHAR} and managername =
+		#{managername,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectByManagerKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from managerinfo
+		where managerid = #{managerid,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectByNamePrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from managerinfo
+		where managername like concat(concat('%',
+		#{managername,jdbcType=VARCHAR}),'%') and managerid like
+		concat(concat('%',#{managerid,jdbcType=VARCHAR}),'%')
+	</select>
+
+	<select id="selectBymanageridcardKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from managerinfo
+		where manager_idcard = #{manager_idcard,jdbcType=VARCHAR}
+	</select>
+
+	<select id="managerExistCheck" resultType="int"
+		parameterType="com.inspur.ssm.pojo.Managerinfo">
+		select count(*) from managerinfo
+		where manager_idcard = #{manager_idcard,jdbcType=VARCHAR}
+	</select>
+
+	<select id="managerCheckIdcard" resultType="int"
+		parameterType="com.inspur.ssm.pojo.Managerinfo">
+		select count(*) from managerinfo
+		where manager_idcard = #{manager_idcard,jdbcType=VARCHAR} and managerid !=
+		#{managerid,jdbcType=VARCHAR}
+	</select>
+
+	<insert id="insert" parameterType="com.inspur.ssm.pojo.Managerinfo">
+		insert into managerinfo
+		(managerid,managername,sex,manager_idcard,birthday,mandepartname,manposition,mantel,manaddress)
+		values (manager_seq.nextval,
+		#{managername,jdbcType=VARCHAR},
+		#{sex,jdbcType=VARCHAR},
+		#{manager_idcard,jdbcType=VARCHAR},
+		to_date(#{birthdays,jdbcType=DATE},'yyyy-MM-dd'),
+		#{mandepartname,jdbcType=VARCHAR},
+		#{manposition,jdbcType=VARCHAR},
+		#{mantel,jdbcType=VARCHAR},
+		#{manaddress,jdbcType=VARCHAR} )
+	</insert>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from managerinfo
+		where managerid = #{managerid,jdbcType=VARCHAR}
+	</delete>
+
+	<update id="updateManager" parameterType="com.inspur.ssm.pojo.Managerinfo">
+		update managerinfo
+		set managername = #{managername,jdbcType=VARCHAR},
+		sex = #{sex,jdbcType=VARCHAR},
+		manager_idcard = #{manager_idcard,jdbcType=VARCHAR},
+		birthday = #{birthday,jdbcType=DATE},
+		mandepartname = #{mandepartname,jdbcType=VARCHAR},
+		manposition = #{manposition,jdbcType=VARCHAR},
+		mantel = #{mantel,jdbcType=VARCHAR},
+		manaddress = #{manaddress,jdbcType=VARCHAR}
+		where managerid = #{managerid,jdbcType=VARCHAR}
+	</update>
+	<update id="updatePassword" parameterType="com.inspur.ssm.pojo.Managerinfo">
+		update managerinfo
+		set manpassword = #{resetpassword,jdbcType=VARCHAR}
+		where managerid = #{managerid,jdbcType=VARCHAR}
+	</update>
+	<!--<insert id="insert" parameterType="com.inspur.ssm.pojo.Userssm" > insert 
+		into USERSSM (ID, USERNAME, PASSWORD, ROLE, REALNAME, TEL, AGE, sex, ADDRESS, 
+		CREATEDATE) values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+		#{password,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
+		#{tel,jdbcType=VARCHAR}, #{age,jdbcType=DECIMAL}, #{sex,jdbcType=VARCHAR}, 
+		#{address,jdbcType=VARCHAR}, #{createdate,jdbcType=DATE}) </insert> <insert 
+		id="insertSelective" parameterType="com.inspur.ssm.pojo.Userssm" > insert 
+		into USERSSM <trim prefix="(" suffix=")" suffixOverrides="," > <if test="id 
+		!= null" > ID, </if> <if test="username != null" > USERNAME, </if> <if test="password 
+		!= null" > PASSWORD, </if> <if test="role != null" > ROLE, </if> <if test="realname 
+		!= null" > REALNAME, </if> <if test="tel != null" > TEL, </if> <if test="age 
+		!= null" > AGE, </if> <if test="sex != null" > sex, </if> <if test="address 
+		!= null" > ADDRESS, </if> <if test="createdate != null" > CREATEDATE, </if> 
+		</trim> <trim prefix="values (" suffix=")" suffixOverrides="," > <if test="id 
+		!= null" > #{id,jdbcType=VARCHAR}, </if> <if test="username != null" > #{username,jdbcType=VARCHAR}, 
+		</if> <if test="password != null" > #{password,jdbcType=VARCHAR}, </if> <if 
+		test="role != null" > #{role,jdbcType=VARCHAR}, </if> <if test="realname 
+		!= null" > #{realname,jdbcType=VARCHAR}, </if> <if test="tel != null" > #{tel,jdbcType=VARCHAR}, 
+		</if> <if test="age != null" > #{age,jdbcType=DECIMAL}, </if> <if test="sex 
+		!= null" > #{sex,jdbcType=VARCHAR}, </if> <if test="address != null" > #{address,jdbcType=VARCHAR}, 
+		</if> <if test="createdate != null" > #{createdate,jdbcType=DATE}, </if> 
+		</trim> </insert> <update id="updateByPrimaryKeySelective" parameterType="com.inspur.ssm.pojo.Userssm" 
+		> update USERSSM <set > <if test="username != null" > USERNAME = #{username,jdbcType=VARCHAR}, 
+		</if> <if test="password != null" > PASSWORD = #{password,jdbcType=VARCHAR}, 
+		</if> <if test="role != null" > ROLE = #{role,jdbcType=VARCHAR}, </if> <if 
+		test="realname != null" > REALNAME = #{realname,jdbcType=VARCHAR}, </if> 
+		<if test="tel != null" > TEL = #{tel,jdbcType=VARCHAR}, </if> <if test="age 
+		!= null" > AGE = #{age,jdbcType=DECIMAL}, </if> <if test="sex != null" > 
+		sex = #{sex,jdbcType=VARCHAR}, </if> <if test="address != null" > ADDRESS 
+		= #{address,jdbcType=VARCHAR}, </if> <if test="createdate != null" > CREATEDATE 
+		= #{createdate,jdbcType=DATE}, </if> </set> where ID = #{id,jdbcType=VARCHAR} 
+		</update> <update id="updateByPrimaryKey" parameterType="com.inspur.ssm.pojo.Userssm" 
+		> update USERSSM set USERNAME = #{username,jdbcType=VARCHAR}, PASSWORD = 
+		#{password,jdbcType=VARCHAR}, ROLE = #{role,jdbcType=VARCHAR}, REALNAME = 
+		#{realname,jdbcType=VARCHAR}, TEL = #{tel,jdbcType=VARCHAR}, AGE = #{age,jdbcType=DECIMAL}, 
+		sex = #{sex,jdbcType=VARCHAR}, ADDRESS = #{address,jdbcType=VARCHAR}, CREATEDATE 
+		= #{createdate,jdbcType=DATE} where ID = #{id,jdbcType=VARCHAR} </update> -->
+</mapper>

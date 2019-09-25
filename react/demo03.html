@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="example"></div>
+    <script src="./lib/react.development.js"></script>
+        <script src="./lib/react-dom.development.js"></script>
+        <script src="./lib/babel.min.js"></script>
+        <script src="./lib/prop-types.js"></script>
+        <script type="text/babel">
+        //定义组件
+        class MyComponent extends React.Component{
+            constructor(props){
+                super(props)
+                this.showInput=this.showInput.bind(this)
+            }
+
+           showInput(){
+             const input=this.refs.content
+            // alert(input.value)
+            alert(this.input.value)
+           }
+           //失去焦点事件  事件处理
+           handleBlur(event){
+              alert(event.target.value)
+           }
+            render(){
+                return (
+                    <div>
+                    <input type="text" ref="content"/>&nbsp;&nbsp;
+                    <input type="text" ref={input => this.input=input}/>&nbsp;&nbsp;
+                    <button onClick={this.showInput}>提示输入</button>&nbsp;&nbsp;
+                    <input type="text" placeholder="失去焦点提示内容" onBlur={this.handleBlur}/>
+                    </div>
+                )
+            }
+        }
+        //渲染组件
+        ReactDOM.render(<MyComponent/>,document.getElementById("example"))
+        </script>
+</body>
+</html>

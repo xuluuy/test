@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.inspur.ssm.mapper.ClassMapper">
+	<resultMap id="BaseResultMap" type="com.inspur.ssm.pojo.Classinfo">
+		<result column="classid" property="classid" jdbcType="VARCHAR" />
+		<result column="stuid" property="stuid" jdbcType="VARCHAR" />
+		<result column="classname" property="classname" jdbcType="VARCHAR" />
+		<result column="classdate" property="classdate" jdbcType="VARCHAR" />
+		<result column="classplace" property="classplace" jdbcType="VARCHAR" />
+		<result column="teacherid" property="teacherid" jdbcType="VARCHAR" />
+		<result column="classjieci" property="classjieci" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		classid,stuid,classname,classdate,classplace,teacherid,classjieci
+	</sql>
+
+	<select id="getClassList" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from classinfo
+	</select>
+
+	<select id="queryClasses" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from classinfo
+		where stuid=#{stuid}
+	</select>
+
+	<select id="getClasses" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from classinfo
+		where classid LIKE concat(concat('%',#{classid}),'%') and classname like
+		concat(concat('%',#{classname}),'%')
+	</select>
+
+	<delete id="deleteclass" parameterType="java.lang.String">
+		delete from classinfo
+		where classid = #{classid,jdbcType=VARCHAR}
+	</delete>
+
+	<select id="geteditclass" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from classinfo
+		where classid = #{classid,jdbcType=VARCHAR}
+	</select>
+
+	<update id="updateClass" parameterType="com.inspur.ssm.pojo.Classinfo">
+		update classinfo
+		set classname=#{classname,jdbcType=VARCHAR},
+		classdate=#{classdate,jdbcType=VARCHAR},
+		classjieci=#{classjieci,jdbcType=VARCHAR},
+		classplace=#{classplace,jdbcType=VARCHAR}
+		where classid=#{classid,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

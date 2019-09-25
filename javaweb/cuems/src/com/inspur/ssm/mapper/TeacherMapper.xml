@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.inspur.ssm.mapper.TeacherMapper">
+	<resultMap id="BaseResultMap" type="com.inspur.ssm.pojo.Teacherinfo">
+		<result column="teacherid" property="teacherid" jdbcType="VARCHAR" />
+		<result column="teachername" property="teachername" jdbcType="VARCHAR" />
+		<result column="teapassword" property="teapassword" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="VARCHAR" />
+		<result column="teacher_idcard" property="teacher_idcard"
+			jdbcType="VARCHAR" />
+		<result column="birthday" property="birthday" jdbcType="DATE" />
+		<result column="teadepartname" property="teadepartname"
+			jdbcType="VARCHAR" />
+		<result column="teamajorname" property="teamajorname" jdbcType="VARCHAR" />
+		<result column="teadegree" property="teadegree" jdbcType="VARCHAR" />
+		<result column="teaposition" property="teaposition" jdbcType="VARCHAR" />
+		<result column="teatel" property="teatel" jdbcType="VARCHAR" />
+		<result column="teaaddress" property="teaaddress" jdbcType="VARCHAR" />
+		<result column="usertype" property="usertype" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		teacherid,teachername,teapassword,sex,teacher_idcard,birthday,teadepartname,teamajorname,teadegree,teaposition,teatel,teaaddress,usertype
+	</sql>
+
+	<select id="findTeacher" resultType="com.inspur.ssm.pojo.Teacherinfo"
+		parameterType="com.inspur.ssm.pojo.Teacherinfo">
+		select
+		teacherid,teachername,teapassword,sex,teacher_idcard,birthday,teadepartname,teamajorname,teadegree,teaposition,teatel,teaaddress,usertype
+		from teacherinfo where teacherid = ${teacherid} and teapassword
+		=${teapassword}
+	</select>
+
+	<select id="getTeachersList" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from teacherinfo order by teacherid
+	</select>
+
+	<select id="selectByTeacher" resultMap="BaseResultMap"
+		parameterType="com.inspur.ssm.pojo.Teacherinfo">
+		select
+		<include refid="Base_Column_List" />
+		from teacherinfo
+		where teacherid = #{teacherid,jdbcType=VARCHAR} and teachername =
+		#{teachername,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectByTeacherKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from teacherinfo
+		where teacherid = #{teacherid,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectByNamePrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from teacherinfo
+		where teachername = #{teachername,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectByteacheridcardKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from teacherinfo
+		where teacher_idcard = #{teacher_idcard,jdbcType=VARCHAR}
+	</select>
+
+	<select id="teacherCheckIdcard" resultType="int"
+		parameterType="com.inspur.ssm.pojo.Teacherinfo">
+		select count(*) from teacherinfo
+		where teacher_idcard = #{teacher_idcard,jdbcType=VARCHAR} and teacherid !=
+		#{teacherid,jdbcType=VARCHAR}
+	</select>
+
+	<select id="teacherExistCheck" resultType="int"
+		parameterType="com.inspur.ssm.pojo.Teacherinfo">
+		select count(*) from teacherinfo
+		where teacher_idcard = #{teacher_idcard,jdbcType=VARCHAR}
+	</select>
+
+	<select id="teacherExistCheckName" resultType="int"
+		parameterType="java.lang.String">
+		select count(*) from teacherinfo
+		where teachername = #{teachername,jdbcType=VARCHAR}
+	</select>
+
+	<select id="teacherExistId" resultType="int" parameterType="java.lang.String">
+		select count(*) from teacherinfo
+		where teacherid = #{teacherid,jdbcType=VARCHAR}
+	</select>
+
+	<insert id="insert" parameterType="com.inspur.ssm.pojo.Teacherinfo">
+		insert into teacherinfo
+		(teacherid,teachername,teapassword,sex,teacher_idcard,birthday,teadepartname,teamajorname,teadegree,teaposition,teatel,teaaddress)
+		values (teacher_seq.nextval,
+		#{teachername,jdbcType=VARCHAR},
+		#{teapassword,jdbcType=VARCHAR},
+		#{sex,jdbcType=VARCHAR},
+		#{teacher_idcard,jdbcType=VARCHAR},
+		#{birthday,jdbcType=DATE},
+		#{teadepartname,jdbcType=VARCHAR},
+		#{teamajorname,jdbcType=VARCHAR},
+		#{teadegree,jdbcType=VARCHAR},
+		#{teaposition,jdbcType=VARCHAR},
+		#{teatel,jdbcType=VARCHAR},
+		#{teaaddress,jdbcType=VARCHAR} )
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from teacherinfo
+		where teacherid = #{teacherid,jdbcType=VARCHAR}
+	</delete>
+
+	<update id="updateTeacher" parameterType="com.inspur.ssm.pojo.Teacherinfo">
+		update teacherinfo
+		set teachername = #{teachername,jdbcType=VARCHAR},
+		sex = #{sex,jdbcType=VARCHAR},
+		teacher_idcard = #{teacher_idcard,jdbcType=VARCHAR},
+		birthday = #{birthday,jdbcType=DATE},
+		teadepartname = #{teadepartname,jdbcType=VARCHAR},
+		teamajorname = #{teamajorname,jdbcType=VARCHAR},
+		teadegree = #{teadegree,jdbcType=VARCHAR},
+		teaposition = #{teaposition,jdbcType=VARCHAR},
+		teatel = #{teatel,jdbcType=VARCHAR},
+		teaaddress = #{teaaddress,jdbcType=VARCHAR}
+		where teacherid = #{teacherid,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateteapassword" parameterType="com.inspur.ssm.pojo.Teacherinfo">
+		update teacherinfo
+		set
+		teapassword = #{resetpassword,jdbcType=VARCHAR}
+		where teacherid = #{teacherid,jdbcType=VARCHAR}
+	</update>
+	<select id="selectteachername" parameterType="java.lang.String"
+		resultType="String">
+		select teachername FROM teacherinfo WHERE
+		teacherid=#{teacherid,jdbcType=VARCHAR}
+	</select>
+	<!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" 
+		> select <include refid="Base_Column_List" /> from USERSSM where ID = #{id,jdbcType=VARCHAR} 
+		</select> <insert id="insert" parameterType="com.inspur.ssm.pojo.Userssm" 
+		> insert into USERSSM (ID, USERNAME, PASSWORD, ROLE, REALNAME, TEL, AGE, 
+		sex, ADDRESS, CREATEDATE) values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+		#{password,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
+		#{tel,jdbcType=VARCHAR}, #{age,jdbcType=DECIMAL}, #{sex,jdbcType=VARCHAR}, 
+		#{address,jdbcType=VARCHAR}, #{createdate,jdbcType=DATE}) </insert> <insert 
+		id="insertSelective" parameterType="com.inspur.ssm.pojo.Userssm" > insert 
+		into USERSSM <trim prefix="(" suffix=")" suffixOverrides="," > <if test="id 
+		!= null" > ID, </if> <if test="username != null" > USERNAME, </if> <if test="password 
+		!= null" > PASSWORD, </if> <if test="role != null" > ROLE, </if> <if test="realname 
+		!= null" > REALNAME, </if> <if test="tel != null" > TEL, </if> <if test="age 
+		!= null" > AGE, </if> <if test="sex != null" > sex, </if> <if test="address 
+		!= null" > ADDRESS, </if> <if test="createdate != null" > CREATEDATE, </if> 
+		</trim> <trim prefix="values (" suffix=")" suffixOverrides="," > <if test="id 
+		!= null" > #{id,jdbcType=VARCHAR}, </if> <if test="username != null" > #{username,jdbcType=VARCHAR}, 
+		</if> <if test="password != null" > #{password,jdbcType=VARCHAR}, </if> <if 
+		test="role != null" > #{role,jdbcType=VARCHAR}, </if> <if test="realname 
+		!= null" > #{realname,jdbcType=VARCHAR}, </if> <if test="tel != null" > #{tel,jdbcType=VARCHAR}, 
+		</if> <if test="age != null" > #{age,jdbcType=DECIMAL}, </if> <if test="sex 
+		!= null" > #{sex,jdbcType=VARCHAR}, </if> <if test="address != null" > #{address,jdbcType=VARCHAR}, 
+		</if> <if test="createdate != null" > #{createdate,jdbcType=DATE}, </if> 
+		</trim> </insert> <update id="updateByPrimaryKeySelective" parameterType="com.inspur.ssm.pojo.Userssm" 
+		> update USERSSM <set > <if test="username != null" > USERNAME = #{username,jdbcType=VARCHAR}, 
+		</if> <if test="password != null" > PASSWORD = #{password,jdbcType=VARCHAR}, 
+		</if> <if test="role != null" > ROLE = #{role,jdbcType=VARCHAR}, </if> <if 
+		test="realname != null" > REALNAME = #{realname,jdbcType=VARCHAR}, </if> 
+		<if test="tel != null" > TEL = #{tel,jdbcType=VARCHAR}, </if> <if test="age 
+		!= null" > AGE = #{age,jdbcType=DECIMAL}, </if> <if test="sex != null" > 
+		sex = #{sex,jdbcType=VARCHAR}, </if> <if test="address != null" > ADDRESS 
+		= #{address,jdbcType=VARCHAR}, </if> <if test="createdate != null" > CREATEDATE 
+		= #{createdate,jdbcType=DATE}, </if> </set> where ID = #{id,jdbcType=VARCHAR} 
+		</update> <update id="updateByPrimaryKey" parameterType="com.inspur.ssm.pojo.Userssm" 
+		> update USERSSM set USERNAME = #{username,jdbcType=VARCHAR}, PASSWORD = 
+		#{password,jdbcType=VARCHAR}, ROLE = #{role,jdbcType=VARCHAR}, REALNAME = 
+		#{realname,jdbcType=VARCHAR}, TEL = #{tel,jdbcType=VARCHAR}, AGE = #{age,jdbcType=DECIMAL}, 
+		sex = #{sex,jdbcType=VARCHAR}, ADDRESS = #{address,jdbcType=VARCHAR}, CREATEDATE 
+		= #{createdate,jdbcType=DATE} where ID = #{id,jdbcType=VARCHAR} </update> -->
+</mapper>

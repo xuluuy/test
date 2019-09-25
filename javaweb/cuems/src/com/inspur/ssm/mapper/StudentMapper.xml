@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.inspur.ssm.mapper.StudentMapper">
+	<resultMap id="BaseResultMap" type="com.inspur.ssm.pojo.Studentinfo">
+		<result column="stuid" property="stuid" jdbcType="VARCHAR" />
+		<result column="stuname" property="stuname" jdbcType="VARCHAR" />
+		<result column="stupassword" property="stupassword" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="VARCHAR" />
+		<result column="stu_idcard" property="stu_idcard" jdbcType="VARCHAR" />
+		<result column="birthday" property="birthday" jdbcType="DATE" />
+		<result column="studepartname" property="studepartname"
+			jdbcType="VARCHAR" />
+		<result column="stumajorname" property="stumajorname" jdbcType="VARCHAR" />
+		<result column="stulevel" property="stulevel" jdbcType="VARCHAR" />
+		<result column="stutel" property="stutel" jdbcType="VARCHAR" />
+		<result column="stuaddress" property="stuaddress" jdbcType="VARCHAR" />
+		<result column="usertype" property="usertype" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap type="com.inspur.ssm.pojo.SelectCrouseinfo" id="base">
+		<result column="selectid" property="selectid" jdbcType="VARCHAR" />
+		<result column="stuid" property="stuid" jdbcType="VARCHAR" />
+		<result column="courname" property="courname" jdbcType="VARCHAR" />
+		<result column="courtype" property="courtype" jdbcType="VARCHAR" />
+		<result column="teacherid" property="teacherid" jdbcType="VARCHAR" />
+		<result column="courseid" property="courseid" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap type="com.inspur.ssm.pojo.CourseListinfo" id="base_map">
+		<result column="courseid" property="courseid" jdbcType="VARCHAR" />
+		<result column="coursename" property="coursename" jdbcType="VARCHAR" />
+		<result column="coursekind" property="coursekind" jdbcType="VARCHAR" />
+		<result column="coursetype" property="coursetype" jdbcType="VARCHAR" />
+		<result column="credit" property="credit" jdbcType="VARCHAR" />
+		<result column="teacherid" property="teacherid" jdbcType="VARCHAR" />
+		<result column="teachername" property="teachername" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		stuid,stuname,stupassword,sex,stu_idcard,birthday,studepartname,stumajorname,stulevel,stutel,stuaddress,usertype
+	</sql>
+	<sql id="Select_Column_List">
+		selectid,stuid,courname,courtype,teacherid,courseid
+	</sql>
+	<sql id="Course_Column_List">
+		courseid,coursename,coursekind,coursetype,credit,teacherid
+	</sql>
+
+	<select id="findUser" resultType="com.inspur.ssm.pojo.Studentinfo"
+		parameterType="com.inspur.ssm.pojo.Studentinfo">
+		select
+		stuid,stuname,stupassword,sex,stu_idcard,birthday,studepartname,stumajorname,stulevel,stutel,stuaddress,usertype
+		from studentinfo where stuid = #{stuid} and stupassword =
+		#{stupassword}
+	</select>
+
+	<select id="getStudentName" resultType="java.lang.String"
+		parameterType="java.lang.String">
+		select stuname from studentinfo where stuid = #{stuid}
+	</select>
+
+	<update id="updateByPrimaryKey" parameterType="com.inspur.ssm.pojo.Studentinfo">
+		update studentinfo
+		set stupassword = #{resetpassword,jdbcType=VARCHAR}
+		where stuid = #{stuid,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 查询学生所有信息的select标签 -->
+	<select id="getStudentList" resultMap="BaseResultMap"
+		parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from studentinfo order by stuid
+	</select>
+
+	<select id="selectByStudent" resultMap="BaseResultMap"
+		parameterType="com.inspur.ssm.pojo.Studentinfo">
+		select
+		<include refid="Base_Column_List" />
+		from studentinfo
+		where stuid like concat(concat('%',#{stuid,jdbcType=VARCHAR}),'%') and
+		stuname like concat(concat('%',#{stuname,jdbcType=VARCHAR}),'%')
+	</select>
+
+	<select id="selectByStudentKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from studentinfo
+		where stuid = #{stuid,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectByNamePrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from studentinfo
+		where stuname = #{stuname,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectByStudentidcardKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from studentinfo
+		where stu_idcard = #{stu_idcard,jdbcType=VARCHAR}
+	</select>
+
+	<select id="studentCheckIdcard" resultType="int"
+		parameterType="com.inspur.ssm.pojo.Studentinfo">
+		select count(*) from studentinfo
+		where stu_idcard = #{stu_idcard,jdbcType=VARCHAR} and stuid !=
+		#{stuid,jdbcType=VARCHAR}
+	</select>
+
+	<select id="studentExistCheck" resultType="int"
+		parameterType="com.inspur.ssm.pojo.Studentinfo">
+		select count(*) from studentinfo
+		where stu_idcard = #{stu_idcard,jdbcType=VARCHAR}
+	</select>
+
+	<select id="studentExistCheckId" resultType="int" parameterType="java.lang.String">
+		select count(*) from studentinfo
+		where stuid = #{stuid,jdbcType=VARCHAR}
+	</select>
+
+	<insert id="insert" parameterType="com.inspur.ssm.pojo.Studentinfo">
+		insert into studentinfo
+		(stuid,stuname,sex,stu_idcard,birthday,studepartname,stumajorname,stulevel,stutel,stuaddress)
+		values (student_seq.nextval,
+		#{stuname,jdbcType=VARCHAR},
+		#{sex,jdbcType=VARCHAR},
+		#{stu_idcard,jdbcType=VARCHAR},
+		to_date(#{birthdays,jdbcType=DATE},'yyyy-MM-dd'),
+		#{studepartname,jdbcType=VARCHAR},
+		#{stumajorname,jdbcType=VARCHAR},
+		#{stulevel,jdbcType=VARCHAR},
+		#{stutel,jdbcType=VARCHAR},
+		#{stuaddress,jdbcType=VARCHAR} )
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from studentinfo
+		where stuid = #{stuid,jdbcType=VARCHAR}
+	</delete>
+
+	<update id="updateStudent" parameterType="com.inspur.ssm.pojo.Studentinfo">
+		update studentinfo
+		set stuname = #{stuname,jdbcType=VARCHAR},
+		stupassword = #{stupassword,jdbcType=VARCHAR},
+		sex = #{sex,jdbcType=VARCHAR},
+		stu_idcard = #{stu_idcard,jdbcType=VARCHAR},
+		birthday = to_date(#{birthdays,jdbcType=DATE},'yyyy-MM-dd'),
+		studepartname = #{studepartname,jdbcType=VARCHAR},
+		stumajorname = #{stumajorname,jdbcType=VARCHAR},
+		stulevel = #{stulevel,jdbcType=VARCHAR},
+		stutel = #{stutel,jdbcType=VARCHAR},
+		stuaddress = #{stuaddress,jdbcType=VARCHAR}
+		where stuid = #{stuid,jdbcType=VARCHAR}
+	</update>
+	<select id="selectcourses" resultMap="base" parameterType="java.lang.String">
+		select
+		selectid,stuid,courname,courtype,selectcourse.teacherid,teachername
+		from selectcourse,teacherinfo
+		where stuid = #{stuid,jdbcType=VARCHAR} AND
+		teacherinfo.teacherid=selectcourse.teacherid
+	</select>
+	<select id="querycourse" resultMap="base_map">
+		SELECT distinct
+		courseid ,coursename,coursekind,coursetype,credit,teachername
+		from courseinfo,teacherinfo
+		where teacherinfo.teacherid=courseinfo.teacherid
+		ORDER BY courseid
+	</select>
+	<select id="selectcourseByCid" resultMap="base_map"
+		parameterType="java.lang.String">
+		select
+		<include refid="Course_Column_List" />
+		from courseinfo
+		WHERE courseid=#{courseid,jdbcType=VARCHAR}
+	</select>
+	<insert id="addCourse" parameterType="com.inspur.ssm.pojo.SelectCrouseinfo">
+		insert into selectcourse (selectid,stuid,courname,courtype,teacherid)
+		values (select_seq.nextval,
+		#{stuid,jdbcType=VARCHAR},
+		#{courname,jdbcType=VARCHAR},
+		#{courtype,jdbcType=VARCHAR},
+		#{teacherid,jdbcType=VARCHAR})
+
+	</insert>
+	<!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" 
+		> select <include refid="Base_Column_List" /> from USERSSM where ID = #{id,jdbcType=VARCHAR} 
+		</select> <delete id="deleteByPrimaryKey" parameterType="java.lang.String" 
+		> delete from USERSSM where ID = #{id,jdbcType=VARCHAR} </delete> <insert 
+		id="insert" parameterType="com.inspur.ssm.pojo.Userssm" > insert into USERSSM 
+		(ID, USERNAME, PASSWORD, ROLE, REALNAME, TEL, AGE, sex, ADDRESS, CREATEDATE) 
+		values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+		#{role,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
+		#{age,jdbcType=DECIMAL}, #{sex,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+		#{createdate,jdbcType=DATE}) </insert> <insert id="insertSelective" parameterType="com.inspur.ssm.pojo.Userssm" 
+		> insert into USERSSM <trim prefix="(" suffix=")" suffixOverrides="," > <if 
+		test="id != null" > ID, </if> <if test="username != null" > USERNAME, </if> 
+		<if test="password != null" > PASSWORD, </if> <if test="role != null" > ROLE, 
+		</if> <if test="realname != null" > REALNAME, </if> <if test="tel != null" 
+		> TEL, </if> <if test="age != null" > AGE, </if> <if test="sex != null" > 
+		sex, </if> <if test="address != null" > ADDRESS, </if> <if test="createdate 
+		!= null" > CREATEDATE, </if> </trim> <trim prefix="values (" suffix=")" suffixOverrides="," 
+		> <if test="id != null" > #{id,jdbcType=VARCHAR}, </if> <if test="username 
+		!= null" > #{username,jdbcType=VARCHAR}, </if> <if test="password != null" 
+		> #{password,jdbcType=VARCHAR}, </if> <if test="role != null" > #{role,jdbcType=VARCHAR}, 
+		</if> <if test="realname != null" > #{realname,jdbcType=VARCHAR}, </if> <if 
+		test="tel != null" > #{tel,jdbcType=VARCHAR}, </if> <if test="age != null" 
+		> #{age,jdbcType=DECIMAL}, </if> <if test="sex != null" > #{sex,jdbcType=VARCHAR}, 
+		</if> <if test="address != null" > #{address,jdbcType=VARCHAR}, </if> <if 
+		test="createdate != null" > #{createdate,jdbcType=DATE}, </if> </trim> </insert> 
+		<update id="updateByPrimaryKeySelective" parameterType="com.inspur.ssm.pojo.Userssm" 
+		> update USERSSM <set > <if test="username != null" > USERNAME = #{username,jdbcType=VARCHAR}, 
+		</if> <if test="password != null" > PASSWORD = #{password,jdbcType=VARCHAR}, 
+		</if> <if test="role != null" > ROLE = #{role,jdbcType=VARCHAR}, </if> <if 
+		test="realname != null" > REALNAME = #{realname,jdbcType=VARCHAR}, </if> 
+		<if test="tel != null" > TEL = #{tel,jdbcType=VARCHAR}, </if> <if test="age 
+		!= null" > AGE = #{age,jdbcType=DECIMAL}, </if> <if test="sex != null" > 
+		sex = #{sex,jdbcType=VARCHAR}, </if> <if test="address != null" > ADDRESS 
+		= #{address,jdbcType=VARCHAR}, </if> <if test="createdate != null" > CREATEDATE 
+		= #{createdate,jdbcType=DATE}, </if> </set> where ID = #{id,jdbcType=VARCHAR} 
+		</update> <update id="updateByPrimaryKey" parameterType="com.inspur.ssm.pojo.Userssm" 
+		> update USERSSM set USERNAME = #{username,jdbcType=VARCHAR}, PASSWORD = 
+		#{password,jdbcType=VARCHAR}, ROLE = #{role,jdbcType=VARCHAR}, REALNAME = 
+		#{realname,jdbcType=VARCHAR}, TEL = #{tel,jdbcType=VARCHAR}, AGE = #{age,jdbcType=DECIMAL}, 
+		sex = #{sex,jdbcType=VARCHAR}, ADDRESS = #{address,jdbcType=VARCHAR}, CREATEDATE 
+		= #{createdate,jdbcType=DATE} where ID = #{id,jdbcType=VARCHAR} </update> -->
+</mapper>

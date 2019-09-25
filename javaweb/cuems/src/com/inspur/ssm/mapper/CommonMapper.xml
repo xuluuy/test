@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.inspur.ssm.mapper.CommonMapper">
+	<sql id="pagingTop">
+		select * from (select * from (select b.*, row_number()
+		OVER(ORDER BY null) AS row_number from (
+	</sql>
+
+	<sql id="pagingBottom">
+		<![CDATA[ ) b ) a where a. row_number > #{startIndex}) where rownum <= #{endIndex}-#{startIndex} ]]>
+	</sql>
+	<!-- 下拉框初始化查询 -->
+	<select id="getPCodeNumber" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">
+		SELECT p_value BM, p_name MC FROM params T WHERE p_flag='1' and p_code
+		= #{codeType}
+		<if test="orderType != null">
+			order by to_number(t.p_value) ${orderType}
+		</if>
+	</select>
+
+</mapper>
